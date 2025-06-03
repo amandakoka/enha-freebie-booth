@@ -130,10 +130,11 @@
     let width = video.videoWidth;
     let height = video.videoHeight;
 
-    // Fallback to prevent zero-dimension canvas
-    if (width === 0 || height === 0) {
-        width = 800;
-        height = 600;
+    // If phone is in portrait, swap width/height if necessary
+    const isPortrait = window.innerHeight > window.innerWidth;
+
+    if (isPortrait && width > height) {
+        [width, height] = [height, width]; // Swap them
     }
 
     canvas.width = width;
@@ -168,6 +169,7 @@
         currentStrip.appendChild(downloadBtn);
     }
 }
+
 
 
     function downloadStrip(strip) {
