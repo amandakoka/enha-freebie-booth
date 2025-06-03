@@ -18,7 +18,7 @@ h1 {
 
 .video-wrapper {
     position: relative;
-    width: 100%;
+    width: 90vw;
     max-width: 800px;
     aspect-ratio: 65 / 45;
     overflow: hidden;
