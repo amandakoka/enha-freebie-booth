@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enha Freebie Booth</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Enhypen Walk The Line Photobooth</h1>
+    
+    <div class="main-content"></div>
+
+    <div class="video-wrapper">
+      <video autoplay id="video"></video>
+      <img id="overlay-image" src="" alt="Overlay" />
+    </div>
+
+    <div>
+      <input type="number" min="0" class="controls" placeholder="Timer(sec)" id="timer" />
+      <button id="click-btn" class="controls">Shoot</button>
+      <button id="toggle-members-btn">Show Members</button>
+    </div>
+
+    <div class="members">
+      <!-- Member images -->
+      <img src="assets/images/jake1.png" alt="Jake1" />
+      <img src="assets/images/jake2.png" alt="Jake2" />
+      <img src="assets/images/jake3.png" alt="Jake3" />
+      <img src="assets/images/jake4.png" alt="Jake4" />
+
+      <img src="assets/images/sunghoon1.png" alt="Sunghoon1" />
+      <img src="assets/images/sunghoon2.png" alt="Sunghoon2" />
+      <img src="assets/images/sunghoon3.png" alt="Sunghoon3" />
+      <img src="assets/images/sunghoon4.png" alt="Sunghoon4" />
+
+      <img src="assets/images/sunoo1.png" alt="Sunoo1" />
+      <img src="assets/images/sunoo2.png" alt="Sunoo2" />
+      <img src="assets/images/sunoo3.png" alt="Sunoo3" />
+      <img src="assets/images/sunoo4.png" alt="Sunoo4" />
+
+      <img src="assets/images/jay1.png" alt="Jay1" />
+      <img src="assets/images/jay2.png" alt="Jay2" />
+      <img src="assets/images/jay3.png" alt="Jay3" />
+      <img src="assets/images/jay4.png" alt="Jay4" />
+
+      <img src="assets/images/hee1.png" alt="Hee1" />
+      <img src="assets/images/hee2.png" alt="Hee2" />
+      <img src="assets/images/hee3.png" alt="Hee3" />
+      <img src="assets/images/hee4.png" alt="Hee4" />
+
+      <img src="assets/images/won1.png" alt="Won1" />
+      <img src="assets/images/won2.png" alt="Won2" />
+      <img src="assets/images/won3.png" alt="Won3" />
+      <img src="assets/images/won4.png" alt="Won4" />
+
+      <img src="assets/images/niki1.png" alt="Niki1" />
+      <img src="assets/images/niki2.png" alt="Niki2" />
+      <img src="assets/images/niki3.png" alt="Niki3" />
+      <img src="assets/images/niki4.png" alt="Niki4" />
+    </div>
+
+    <div id="photos"></div>
+  </div>
+
+  <script>
+    const video = document.getElementById("video");
+    const clickBtn = document.getElementById("click-btn");
+    const photosContainer = document.getElementById("photos");
+    const timerInput = document.getElementById("timer");
+
+    // Access camera and stream to video
+    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+      video.srcObject = stream;
+    });
+
+    const toggleBtn = document.getElementById("toggle-members-btn");
+    const membersDiv = document.querySelector(".members");
+
+    // Start hidden
+    membersDiv.style.display = "none";
+
+    toggleBtn.addEventListener("click", () => {
+      if (membersDiv.style.display === "none") {
+        membersDiv.style.display = "grid";
+        toggleBtn.textContent = "Hide Members";
+      } else {
+        membersDiv.style.display = "none";
+        toggleBtn.textContent = "Show Members";
+      }
+    });
+
+    const overlayImg = document.getElementById("overlay-image");
+    const memberImgs = document.querySelectorAll(".members img");
+
+    memberImgs.forEach((img) => {
+      img.addEventListener("click", () => {
+        overlayImg.src = img.src;
+      });
+    });
+
+    // Photo with timer
+    clickBtn.addEventListener("click", () => {
+      let timer = timerInput.value - 1;
+      if (timer > 0) {
+        clickBtn.disabled = true;
+        let countdown = setInterval(() => {
+          clickBtn.textContent = `Click (${timer})`;
+          if (timer <= 0) {
+            clearInterval(countdown);
+            clickBtn.textContent = "Click";
+            clickBtn.disabled = false;
+            clickPhoto();
+          }
+          timer--;
+        }, 1000);
+      } else {
+        clickPhoto();
+      }
+    });
+
+    let photoCount = 0;
+    let currentStrip = null;
+
+    function clickPhoto() {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      context.fillStyle = "#000B20";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      if (overlayImg.src && overlayImg.complete) {
+        context.drawImage(overlayImg, 0, 0, canvas.width, canvas.height);
+      }
+
+      const dataURL = canvas.toDataURL("image/png");
+      const img = document.createElement("img");
+      img.src = dataURL;
+
+      if (photoCount % 4 === 0) {
+        currentStrip = document.createElement("div");
+        currentStrip.classList.add("strip");
+        photosContainer.appendChild(currentStrip);
+      }
+
+      currentStrip.appendChild(img);
+      photoCount++;
+
+      if (photoCount % 4 === 0) {
+        const downloadBtn = document.createElement("button");
+        downloadBtn.textContent = "Download Strip";
+        downloadBtn.addEventListener("click", () => downloadStrip(currentStrip));
+        currentStrip.appendChild(downloadBtn);
+      }
+    }
+
+    function downloadStrip(strip) {
+      const images = strip.querySelectorAll("img");
+      if (images.length !== 4) return;
+
+      const width = images[0].naturalWidth;
+      const height = images[0].naturalHeight;
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height * 4;
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#000B20";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      images.forEach((img, index) => {
+        ctx.fillRect(0, height * index, width, height);
+        ctx.drawImage(img, 0, height * index, width, height);
+      });
+
+      const finalImage = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = finalImage;
+      a.download = "photo-strip.png";
+      a.click();
+    }
+  </script>
+</body>
+</html>
