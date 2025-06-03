@@ -124,39 +124,51 @@
     let currentStrip = null;
 
     function clickPhoto() {
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
 
-      context.fillStyle = "#000B20";
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    let width = video.videoWidth;
+    let height = video.videoHeight;
 
-      if (overlayImg.src && overlayImg.complete) {
-        context.drawImage(overlayImg, 0, 0, canvas.width, canvas.height);
-      }
+    // Fallback to prevent zero-dimension canvas
+    if (width === 0 || height === 0) {
+        width = 800;
+        height = 600;
+    }
 
-      const dataURL = canvas.toDataURL("image/png");
-      const img = document.createElement("img");
-      img.src = dataURL;
+    canvas.width = width;
+    canvas.height = height;
 
-      if (photoCount % 4 === 0) {
+    context.fillStyle = "#000B20";
+    context.fillRect(0, 0, width, height);
+
+    context.drawImage(video, 0, 0, width, height);
+
+    if (overlayImg.src && overlayImg.complete) {
+        context.drawImage(overlayImg, 0, 0, width, height);
+    }
+
+    const dataURL = canvas.toDataURL("image/png");
+    const img = document.createElement("img");
+    img.src = dataURL;
+
+    if (photoCount % 4 === 0) {
         currentStrip = document.createElement("div");
         currentStrip.classList.add("strip");
         photosContainer.appendChild(currentStrip);
-      }
+    }
 
-      currentStrip.appendChild(img);
-      photoCount++;
+    currentStrip.appendChild(img);
+    photoCount++;
 
-      if (photoCount % 4 === 0) {
+    if (photoCount % 4 === 0) {
         const downloadBtn = document.createElement("button");
         downloadBtn.textContent = "Download Strip";
         downloadBtn.addEventListener("click", () => downloadStrip(currentStrip));
         currentStrip.appendChild(downloadBtn);
-      }
     }
+}
+
 
     function downloadStrip(strip) {
       const images = strip.querySelectorAll("img");
