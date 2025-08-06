@@ -181,7 +181,7 @@ h1 {
   text-decoration: underline;
 }
 
-/* Instructions Dropdown */
+/* Instructions Dropdown Container */
 .instructions-dropdown {
   width: 100%;
   max-width: 500px;
@@ -189,28 +189,31 @@ h1 {
   position: relative;
 }
 
+/* Hide the checkbox input */
 .instructions-toggle {
   position: absolute;
   opacity: 0;
 }
 
+/* Button styling */
 .instructions-btn {
   display: block;
-  background-color: #033150;
+  background-color: #000B20; /* Match credits color */
   color: white;
   padding: 12px 20px;
   width: 100%;
-  border: none;
   font-size: 1rem;
   text-align: center;
-  transition: all 0.3s;
   cursor: pointer;
+  border: none;
+  position: relative;
 }
 
 .instructions-btn:hover {
-  background-color: #000B20;
+  background-color: #033150; /* Slightly lighter on hover */
 }
 
+/* Dropdown arrow */
 .instructions-btn::after {
   content: "▼";
   font-size: 0.7rem;
@@ -218,36 +221,51 @@ h1 {
   transition: transform 0.3s;
 }
 
+/* Dropdown Content Hidden by Default */
 .instructions-content {
   max-height: 0;
   overflow: hidden;
   background-color: #000B20;
+  color: white;
   transition: max-height 0.3s ease;
+  padding: 0 20px; /* Horizontal padding even when closed */
 }
 
+.instructions-content ol {
+  list-style-type: decimal;
+  padding-left: 20px; /* Indent list items */
+  margin: 10px 0; /* Add vertical spacing */
+}
+
+/* When checkbox is checked, show content */
 .instructions-toggle:checked ~ .instructions-content {
   max-height: 500px;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   margin-top: 2px;
 }
 
-.instructions-toggle:checked ~ .instructions-btn::after {
-  transform: rotate(180deg);
-}
-
+/* Style the mobile alert */
 .mobile-alert {
-  color: #FFD700;
-  font-weight: bold;
+  display: none;
+  text-align: center;
   padding: 8px;
   margin-bottom: 15px;
-  text-align: center;
-  display: none;
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
+  color: #FFD700;
+  font-weight: bold;
 }
 
+/* Show alert on mobile */
 @media only screen and (max-width: 768px) {
   .mobile-alert {
     display: block;
   }
 }
+
+/* Optional: Add spacing between list items */
+.instructions-content ol li {
+  margin-bottom: 10px;
+}
+

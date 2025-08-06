@@ -1,97 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>ENHYPEN Photobooth</title>
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
   <div class="container">
     <h1>ENHYPEN WALK THE LINE PHOTOBOOTH</h1>
+     <!-- Credits -->
+    <div class="credits">
+      <p>
+        Heyyy I'm Amanda!! I'm currently studying Software Engineering and wanted to create a fun
+        interactive freebie photobooth for the Enhypen concerts I'm attending (London and Manchester).
+        I hope you guys enjoy the show, and for those who are not attending have fun with this photobooth I made!
+        Feel free to follow me on Instagram:
+        <a href="https://www.instagram.com/enhypenjakehoon_/" target="_blank">@enhypenjakehoon_</a>
+        <a href="https://www.instagram.com/amanda.koka/" target="_blank">@amanda.koka</a>
+      </p>
+    </div>
     
+    <!-- Instructions Dropdown -->
     <div class="instructions-dropdown">
-  <label for="instructions-toggle" class="instructions-btn">Instructions</label>
-  <input type="checkbox" id="instructions-toggle" class="instructions-toggle">
-  <div class="instructions-content">
-    <div class="mobile-alert">For best results on phone, turn landscape and refresh!</div>
-    <ol>
-      <li>Pick your member overlay from the show members button</li>
-      <li>Set timer if needed (in seconds)</li>
-      <li>Click "Take Photo" button</li>
-      <li>Repeat until you have 4 photos</li>
-      <li>Scroll down and download your photostrip!</li>
-    </ol>
-  </div>
-</div>
-    
+      <label for="instructions-toggle" class="instructions-btn">Instructions</label>
+      <input type="checkbox" id="instructions-toggle" class="instructions-toggle" />
+      <div class="instructions-content">
+        <div class="mobile-alert">For best results on phone, turn landscape and refresh!</div>
+        <ol>
+          <li>Pick your member overlay using the "Show Members" button.</li>
+          <li>Set the timer if needed (in seconds).</li>
+          <li>Click the "Take Photo" button.</li>
+          <li>Repeat 3 more times until you have 4 photos; you can choose a different member overlay for each photo.</li>
+          <li>Once you have 4 photos, the "Take Photo" button will change to say "Strip Full 4/4".</li>
+          <li>Scroll down and download your photostrip!</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Camera + Controls -->
     <div class="camera-container">
       <div class="video-wrapper">
         <video autoplay playsinline id="video"></video>
-        <img id="overlay-image" src="" alt="">
+        <img id="overlay-image" src="" alt="" />
       </div>
 
       <div class="controls-container">
-        <input type="number" min="0" class="controls" placeholder="Timer (sec)" id="timer">
+        <input type="number" min="0" class="controls" placeholder="Timer (sec)" id="timer" />
         <button id="click-btn" class="controls">Take Photo</button>
-        <button id="toggle-members-btn">Show Members</button>
+        <button id="toggle-members-btn" class="controls">Show Members</button>
       </div>
-      <div class="credits">
-  <p>Heyyy I'm Amanda!! I'm currently studying Software Engineering and
-    wanted to create a fun interactive freebie photobooth for the Enhypen concerts I'm attending
-    (London and Manchester). I hope you guys enjoy the show, and for those who are not attending have
-    fun with this photobooth I made! Feel free to follow me on instagram!! : <a href="https://www.instagram.com/enhypenjakehoon_/" target="_blank">@enhypenjakehoon_</a>
-    <a href="https://www.instagram.com/amanda.koka/" target="_blank">@amanda.koka</a>
-  </p>
-</div>
     </div>
 
+    <!-- Member Overlay Images -->
     <div class="members">
       <!-- Jake -->
-      <img src="assets/images/jake1.png" alt="Jake1">
-      <img src="assets/images/jake2.png" alt="Jake2">
-      <img src="assets/images/jake3.png" alt="Jake3">
-      <img src="assets/images/jake4.png" alt="Jake4">
+      <img src="assets/images/jake1.png" alt="Jake1" />
+      <img src="assets/images/jake2.png" alt="Jake2" />
+      <img src="assets/images/jake3.png" alt="Jake3" />
+      <img src="assets/images/jake4.png" alt="Jake4" />
 
       <!-- Sunghoon -->
-      <img src="assets/images/sunghoon1.png" alt="Sunghoon1">
-      <img src="assets/images/sunghoon2.png" alt="Sunghoon2">
-      <img src="assets/images/sunghoon3.png" alt="Sunghoon3">
-      <img src="assets/images/sunghoon4.png" alt="Sunghoon4">
+      <img src="assets/images/sunghoon1.png" alt="Sunghoon1" />
+      <img src="assets/images/sunghoon2.png" alt="Sunghoon2" />
+      <img src="assets/images/sunghoon3.png" alt="Sunghoon3" />
+      <img src="assets/images/sunghoon4.png" alt="Sunghoon4" />
 
       <!-- Sunoo -->
-      <img src="assets/images/sunoo1.png" alt="Sunoo1">
-      <img src="assets/images/sunoo2.png" alt="Sunoo2">
-      <img src="assets/images/sunoo3.png" alt="Sunoo3">
-      <img src="assets/images/sunoo4.png" alt="Sunoo4">
+      <img src="assets/images/sunoo1.png" alt="Sunoo1" />
+      <img src="assets/images/sunoo2.png" alt="Sunoo2" />
+      <img src="assets/images/sunoo3.png" alt="Sunoo3" />
+      <img src="assets/images/sunoo4.png" alt="Sunoo4" />
 
       <!-- Jay -->
-      <img src="assets/images/jay1.png" alt="Jay1">
-      <img src="assets/images/jay2.png" alt="Jay2">
-      <img src="assets/images/jay3.png" alt="Jay3">
-      <img src="assets/images/jay4.png" alt="Jay4">
+      <img src="assets/images/jay1.png" alt="Jay1" />
+      <img src="assets/images/jay2.png" alt="Jay2" />
+      <img src="assets/images/jay3.png" alt="Jay3" />
+      <img src="assets/images/jay4.png" alt="Jay4" />
 
       <!-- Heeseung -->
-      <img src="assets/images/hee1.png" alt="Hee1">
-      <img src="assets/images/hee2.png" alt="Hee2">
-      <img src="assets/images/hee3.png" alt="Hee3">
-      <img src="assets/images/hee4.png" alt="Hee4">
+      <img src="assets/images/hee1.png" alt="Hee1" />
+      <img src="assets/images/hee2.png" alt="Hee2" />
+      <img src="assets/images/hee3.png" alt="Hee3" />
+      <img src="assets/images/hee4.png" alt="Hee4" />
 
       <!-- Jungwon -->
-      <img src="assets/images/won1.png" alt="Won1">
-      <img src="assets/images/won2.png" alt="Won2">
-      <img src="assets/images/won3.png" alt="Won3">
-      <img src="assets/images/won4.png" alt="Won4">
+      <img src="assets/images/won1.png" alt="Won1" />
+      <img src="assets/images/won2.png" alt="Won2" />
+      <img src="assets/images/won3.png" alt="Won3" />
+      <img src="assets/images/won4.png" alt="Won4" />
 
       <!-- Niki -->
-      <img src="assets/images/niki1.png" alt="Niki1">
-      <img src="assets/images/niki2.png" alt="Niki2">
-      <img src="assets/images/niki3.png" alt="Niki3">
-      <img src="assets/images/niki4.png" alt="Niki4">
+      <img src="assets/images/niki1.png" alt="Niki1" />
+      <img src="assets/images/niki2.png" alt="Niki2" />
+      <img src="assets/images/niki3.png" alt="Niki3" />
+      <img src="assets/images/niki4.png" alt="Niki4" />
     </div>
 
+    <!-- Captured Photos -->
     <div id="photos"></div>
   </div>
+
+  <!-- Script -->
   <script src="assets/scripts/script.js"></script>
 </body>
 </html>
