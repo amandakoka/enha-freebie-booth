@@ -149,72 +149,69 @@ function downloadPhotoStrip() {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
 
-  // First load all images properly
-  const loadImages = stripPhotos.map(photoUrl => {
-    return new Promise((resolve) => {
+  // Set dimensions
+  const targetWidth = 1500;
+  const photoHeight = Math.round(targetWidth * (3/4));
+  const borderWidth = 60;
+  const gap = 60;
+  const footerHeight = 120;
+
+  canvas.width = targetWidth + (borderWidth * 2);
+  canvas.height = (photoHeight * 4) + (gap * 3) + (borderWidth * 2) + footerHeight;
+
+  // Draw background
+  ctx.fillStyle = "#033150";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Process photos
+  let yPos = borderWidth;
+  const promises = stripPhotos.map(photoUrl => {
+    return new Promise(resolve => {
       const img = new Image();
-      img.onload = () => resolve(img);
+      img.onload = () => {
+        // Blue border around each photo
+        ctx.strokeStyle = "#033150";
+        ctx.lineWidth = 8;
+        ctx.strokeRect(borderWidth, yPos, targetWidth, photoHeight);
+        
+        // Calculate scaling
+        const scale = Math.min(
+          (targetWidth - 16) / img.width,
+          (photoHeight - 16) / img.height
+        );
+        const width = img.width * scale;
+        const height = img.height * scale;
+        const xOffset = borderWidth + (targetWidth - width)/2;
+        const yOffset = yPos + (photoHeight - height)/2;
+        
+        // Draw photo 
+        ctx.drawImage(img, xOffset, yOffset, width, height);
+
+        yPos += photoHeight + gap;
+        resolve();
+      };
       img.src = photoUrl;
     });
   });
 
-  // Wait for ALL images to load before creating strip
-  Promise.all(loadImages).then(images => {
-    const firstImage = images[0];
-    const photoWidth = firstImage.width;
-    const photoHeight = firstImage.height;
-    const gap = 15;
-    const borderWidth = 2;
-
-    // Set canvas dimensions (add borders)
-    canvas.width = photoWidth + (borderWidth * 2);
-    canvas.height = (photoHeight * 4) + (gap * 3) + (borderWidth * 2) + 30;
-
-    // Draw black background
-    ctx.fillStyle = "#000B20";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Draw white border
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = borderWidth;
-    ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
-    // Draw each photo with borders
-    let yPos = borderWidth + 5;
-    images.forEach((img, index) => {
-      // Draw photo
-      ctx.drawImage(img, borderWidth, yPos, photoWidth, photoHeight);
-
-      // Draw separator line (except after last photo)
-      if (index < 3) {
-        yPos += photoHeight + gap;
-        ctx.beginPath();
-        ctx.moveTo(borderWidth, yPos - (gap / 2));
-        ctx.lineTo(canvas.width - borderWidth, yPos - (gap / 2));
-        ctx.strokeStyle = "#ffffff";
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      }
-    });
-
-    // Add footer text
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 16px Arial";
+  Promise.all(promises).then(() => {
+    ctx.fillStyle = "#FFFFFF";
     ctx.textAlign = "center";
-    ctx.fillText("ENHYPEN PHOTOBOOTH", canvas.width / 2, canvas.height - 10);
+    ctx.font = "bold 100px Arial";
+    ctx.fillText("ENHYPEN WTL 2025", canvas.width/2, canvas.height - 60);
 
     // Trigger download
     const link = document.createElement("a");
-    link.download = "enhypen-strip.png";
-    link.href = canvas.toDataURL("image/png");
+    link.download = `enhypen-wtl-freebie.png`;
+    link.href = canvas.toDataURL("image/png", 1.0);
     link.click();
-
-    // Reset for new strip after download
+    
+    // Reset
     capturedPhotos = [];
     photoCount = 0;
-    clickBtn.disabled = false;
-    clickBtn.textContent = "Take Photo";
-    photosContainer.innerHTML = "";
+    document.getElementById('click-btn').disabled = false;
+    document.getElementById('click-btn').textContent = "Take Photo";
+    document.getElementById('photos').innerHTML = "";
   });
 }
 
